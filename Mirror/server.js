@@ -1,15 +1,16 @@
 const express = require('express');
 const axios = require('axios');
-const app = express();
 const bodyParser = require('body-parser');
+require('dotenv').config(); // Load environment variables
 
+const app = express();
 app.use(bodyParser.json());
 
 app.post('/mirror', async (req, res) => {
     const { url, teamName } = req.body;
 
     try {
-        // Trigger GitHub Action (replace YOUR_TOKEN and YOUR_REPO)
+        // Trigger GitHub Action using GitHub API
         await axios.post(https://api.github.com/repos/YOUR_USERNAME/YOUR_REPO/actions/workflows/mirror.yml/dispatches, {
             ref: 'main',
             inputs: {
@@ -18,7 +19,7 @@ app.post('/mirror', async (req, res) => {
             },
         }, {
             headers: {
-                Authorization: token YOUR_TOKEN,
+                Authorization: token ${process.env.GITHUB_TOKEN}, // Use your token here
                 Accept: 'application/vnd.github.v3+json',
             }
         });
