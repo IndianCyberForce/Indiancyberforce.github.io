@@ -1,53 +1,36 @@
-// Initialize an empty list of mirrors
-let defacedSites = [];
+const express = require('express');
+const axios = require('axios');
+const app = express();
+const bodyParser = require('body-parser');
 
-// Reference to the list in the HTML
-const defaceList = document.getElementById("deface-list");
+app.use(bodyParser.json());
 
-// Load any existing mirrors from localStorage (optional for local storage support)
-if (localStorage.getItem("defacedSites")) {
-    defacedSites = JSON.parse(localStorage.getItem("defacedSites"));
-    renderList();
-}
+app.post('/mirror', async (req, res) => {
+    const { url, teamName } = req.body;
 
-// Function to add a new defaced site to the list
-document.getElementById("submitForm").addEventListener("submit", function(event) {
-    event.preventDefault();
+    try {
+        // Trigger GitHub Action (replace YOUR_TOKEN and YOUR_REPO)
+        await axios.post(https://api.github.com/repos/YOUR_USERNAME/YOUR_REPO/actions/workflows/mirror.yml/dispatches, {
+            ref: 'main',
+            inputs: {
+                url: url,
+                team_name: teamName
+            },
+        }, {
+            headers: {
+                Authorization: token YOUR_TOKEN,
+                Accept: 'application/vnd.github.v3+json',
+            }
+        });
 
-    // Get the input values
-    const siteUrl = document.getElementById("site-url").value;
-    const mirrorLink = document.getElementById("mirror-link").value;
-
-    // Create a new site object
-    const newSite = {
-        url: siteUrl,
-        mirror: mirrorLink,
-        date: new Date().toLocaleDateString()
-    };
-
-    // Add the new site to the list
-    defacedSites.push(newSite);
-
-    // Save to localStorage (optional)
-    localStorage.setItem("defacedSites", JSON.stringify(defacedSites));
-
-    // Render the updated list
-    renderList();
-
-    // Reset the form
-    document.getElementById("submitForm").reset();
+        res.json({ message: 'Mirroring started', url });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error triggering GitHub Action');
+    }
 });
 
-// Function to render the list of defaced sites
-function renderList() {
-    defaceList.innerHTML = "";
-    defacedSites.forEach(site => {
-        const listItem = document.createElement("li");
-        listItem.innerHTML = 
-            <strong>Website:</strong> <a href="${site.url}" target="_blank">${site.url}</a><br>
-            <strong>Mirror:</strong> <a href="${site.mirror}" target="_blank">${site.mirror}</a><br>
-            <strong>Date:</strong> ${site.date}
-        ;
-        defaceList.appendChild(listItem);
-    });
-}
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(Server running on port ${PORT});
+});
