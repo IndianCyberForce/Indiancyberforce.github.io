@@ -11,7 +11,7 @@ app.post('/mirror', async (req, res) => {
 
     try {
         // Trigger GitHub Action using GitHub API
-        await axios.post(https://api.github.com/repos/YOUR_USERNAME/YOUR_REPO/actions/workflows/mirror.yml/dispatches, {
+        await axios.post(https://api.github.com/repos/IndianCyberForce/Mirror/actions/workflows/mirror.yml/dispatches, {
             ref: 'main',
             inputs: {
                 url: url,
