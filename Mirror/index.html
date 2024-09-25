@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Deface Mirror</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Deface Mirror Archive</h1>
+        <p>Listing of defaced websites.</p>
+    </header>
+
+    <section id="mirror-list">
+        <h2>Recent Defacements</h2>
+        <ul id="deface-list">
+            <!-- List items will be injected here by JavaScript -->
+        </ul>
+    </section>
+
+    <section id="add-mirror">
+        <h2>Submit a New Deface</h2>
+        <form id="submitForm">
+            <label for="site-url">Website URL:</label>
+            <input type="text" id="site-url" placeholder="http://example.com" required>
+            
+            <label for="mirror-link">Mirror Link (Screenshot or HTML):</label>
+            <input type="text" id="mirror-link" placeholder="http://yoursite.com/mirror" required>
+            
+            <button type="submit">Submit Defacement</button>
+        </form>
+    </section>
+
+    <footer>
+        <p>Created by Your Name - Hosted on GitHub Pages</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
