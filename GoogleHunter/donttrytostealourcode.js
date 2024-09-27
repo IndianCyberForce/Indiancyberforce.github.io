@@ -2,7 +2,7 @@
     var site = document.getElementById('target').value.trim();
 
     if (!site) {
-        alert("Please enter a site or keyword.");
+        alert("Enter your target site. (Ex:- site:indiancyberforce.in)");
         return;
     }
     var url = 'https://www.google.com/search?q=' + encodeURIComponent(site) + ' ';
