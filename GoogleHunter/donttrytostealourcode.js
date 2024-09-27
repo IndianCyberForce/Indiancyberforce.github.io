@@ -2,7 +2,7 @@
     var site = document.getElementById('target').value.trim();
 
     if (!site) {
-        alert("Enter your target site. (Ex:- site:indiancyberforce.in)");
+        alert("Enter your target site. (Ex:- site:indiancyberforce.github.io)");
         return;
     }
     var url = 'https://www.google.com/search?q=' + encodeURIComponent(site) + ' ';
@@ -63,3 +63,4 @@
 
     window.open(url, '_blank');
 }
+//TheIndainCyberForce
