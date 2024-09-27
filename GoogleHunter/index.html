@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/jpg" href="https://i.ibb.co/80dLxPx/ICF.png" />
+    <meta name="description" content="Indian Cyber Force ">
+    <meta property="og:image" content="https://i.ibb.co/80dLxPx/ICF.png">
+    <meta property="og:image:url" content="https://i.ibb.co/80dLxPx/ICF.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>ICF is The bug Exposure</title>
+    <style>
+        
+body {
+    background-color: black;
+    color: #00ff00;
+    font-family: "Courier New", Courier, monospace;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+}
+
+.terminal {
+    border: 2px solid #00ff00;
+    width: 80%;
+    margin: 50px auto;
+    padding: 20px;
+    text-align: center;
+    background-color: #0d0d0d;
+    border: 2px solid #00ff00; 
+    border-radius: 10px;
+    padding: 20px;
+
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.5); 
+    text-align: center;
+}
+h1 {
+    color: #00ff00;
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    text-shadow: 0 0 5px #00ff00;
+}
+
+.terminal-text {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+}
+
+input {
+    background-color: black;
+    color: #00ff00;
+    border: 2px solid #00ff00;
+    padding: 10px;
+    width: 60%;
+    font-size: 1.2em;
+    margin-bottom: 20px;
+}
+
+button {
+    background-color: black;
+    color: #ff0000;
+    border: 2px solid #00ff00;
+    padding: 10px;
+    font-size: 1em;
+    margin: 10px;
+    cursor: pointer;
+    display: inline-block;
+
+    border-radius: 5px;
+    font-size: 1em;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+button:hover {
+    background-color: #00ff00;
+    color: black;
+
+    box-shadow: 0 0 15px #00ff00; 
+}
+
+.dork-list {
+    margin-top: 20px;
+    text-align: center;
+}
+
+button:focus {
+    outline: none;
+}
+@media (max-width: 600px) {
+    terminal {
+        width: 95%;
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 1.5em;
+    }
+
+    button {
+        width: 100%;
+        padding: 15px;
+    }
+}
+.social {
+            margin: 20px 0;
+        }
+
+        .social-button {
+            display: inline-block;
+            background-color: rgba(0, 0, 0, 0.5); /* Transparent background */
+            border: 2px solid #00ff00; /* Green border */
+            border-radius: 8px; /* Rounded corners */
+            padding: 10px;
+            text-decoration: none;
+            color: #000dff;
+            font-size: 1.5em;
+            transition: transform 0.2s, background-color 0.3s;
+        }
+        .social-button:hover {
+            background-color: rgba(0, 255, 0, 0.688); /* Light green on hover */
+            transform: scale(1.05); /* Slightly grow the button */
+        }
+
+        .footer {
+            margin-top: auto;
+            font-size: 0.8em;
+            color: #aaa;
+        }
+    </style>
+</head>
+<body>
+    <div class="terminal">
+        <h1>The Bug Exposure</h1>
+        <p class="terminal-text">Enter the Target domain for Vulnerable param & Sensitive data Leaks using predefined Dorks:</p>
+        
+        <input type="text" id="target" placeholder="site:indiancyberforce.in" required>
+        
+        <div class="dork-list">
+            <button onclick="find(1)">Admin Panel</button>
+            <button onclick="find(2)">Error Massage</button>
+            <button onclick="find(3)">SQLI</button>
+            <button onclick="find(4)">Secret</button>
+            <button onclick="find(5)">Open Redirect</button>
+            <button onclick="find(6)">LFI</button>
+            <button onclick="find(7)">XSS</button>
+            <button onclick="find(8)">File Upload</button>
+            <br>
+            <button onclick="find(9)">Sensitive Docs</button>
+            <button onclick="find(10)">API</button>
+            <button onclick="find(11)">SSH pvtKey</button>
+            <button onclick="find(12)">Dir Listening</button>
+            <button onclick="find(13)">config Files</button>
+            <button onclick="find(14)">WPress</button>
+            <button onclick="find(15)">Exposed</button>
+            <button onclick="find(16)">SSRF</button>
+        </div>
+        <center>
+        <font face="iceberg" size="2"><br><br>copyright©2024 | IndianCyberForce</font>
+        <div class="social">
+            <br>
+            <a class="social-button" href="https://t.me/Indian_Cyber_Force_Official" target="_blank">
+                <i class="fab fa-telegram-plane"></i> @CyberForceOfIndia
+            </a>
+        </div>
+        </center>
+    </div>
+
+    <script>
+        function find(type) {
+    var site = document.getElementById('target').value.trim();
+
+    if (!site) {
+        alert("Please enter a site or keyword.");
+        return;
+    }
+    var url = 'https://www.google.com/search?q=' + encodeURIComponent(site) + ' ';
+
+    switch (type) {
+        case 1:
+            url += 'inurl:login | inurl:signin | intitle:login | intitle:signin | intext:"Admin Login" | inurl:"/admin/login" | intitle:"Admin Login"';
+            break;
+        case 2:
+            url += 'inurl:"error" | intitle:"exception" | intitle:"failure" | intitle:"server at" | inurl:exception | "database error" | "SQL syntax" | "undefined index" | "unhandled exception" | "stack trace" | "You have an error in your SQL syntax"';
+            break;
+        case 3:
+            url += 'inurl:id= | inurl:pid= | inurl:category= | inurl:cat= | inurl:action= | inurl:sid= | inurl:dir= | inurl:"?id=" | inurl:".php?=" | inurl:".aspx?=" | inurl:".asp?=" | inurl:".asp?id=" | inurl:"?cat=" | inurl:"?id="';
+            break;
+        case 4:
+            url += 'inurl:email= | inurl:phone= | inurl:password= | inurl:secret=';
+            break;
+        case 5:
+            url += 'inurl:url= | inurl:return= | inurl:next= | inurl:redirect= | inurl:redir= | inurl:ret= | inurl:r2= | inurl:page= inurl:& inurl:http';
+            break;
+        case 6:
+            url += 'inurl:include | inurl:dir | inurl:detail= | inurl:file= | inurl:folder= | inurl:inc= | inurl:locate= | inurl:doc= | inurl:conf= | inurl:".php?file=" | inurl:".asp?file=" | inurl:".aspx?file="';
+            break;
+        case 7:
+            url += 'nurl:q= | inurl:s= | inurl:search= | inurl:query= | inurl:keyword= | inurl:lang=';
+            break;
+        case 8:
+            url += '"choose file" | "upload"';
+            break;   
+        case 9:
+            url += 'ext:txt | ext:pdf | ext:xml | ext:xls | ext:xlsx | ext:ppt | ext:pptx | ext:doc | ext:docx intext:"confidential" | intext:"Not for Public Release" | intext:"internal use only" | intext:"do not distribute"';
+            break;    
+        case 10:
+            url += 'inurl:apidocs | inurl:api-docs | inurl:swagger | inurl:api-explorer | inurl:api | site:*/rest | site:*/v1 | site:*/v2 | site:*/v3 | ';
+            break; 
+        case 11:
+            url += 'ext:ppk | ext:pem | ext:key | intext:"BEGIN RSA PRIVATE KEY"';
+            break; 
+        case 12:
+            url += 'intitle:"index of" | "parent directory" | intext:"index of"';
+            break; 
+        case 13:
+            url += 'inurl:conf | inurl:env | inurl:cgi | inurl:bin | inurl:etc | inurl:root | inurl:sql | inurl:backup | inurl:admin | inurl:php';
+            break; 
+        case 14:
+            url += '"My Blog My WordPress" | "powered by WordPress" | inurl:"/xmlrpc.php"';
+            break; 
+        case 15:
+            url += 'intitle:"index of" "/db_backups/" | intitle:"index of" inurl:ftp intext:admin | intitle:"index of" "system/config" | intitle:"index of" "admin/config" | "index of" "/config/sql" | intitle:"index of" "api/admin" | intitle:"index of" "tinyfilemanager.php" | intitle:"index of" "/admin/backup" | intitle:"index of" "admin/json" | intitle:"index of" "/admin_backup" | intitle:"index of" "/db_backups/"';
+            break;  
+        case 16:
+            url += 'inurl:http | inurl:url= | inurl:path= | inurl:dest= | inurl:html= | inurl:data= | inurl:domain= | inurl:page=';
+            break;            
+        default:
+            alert("Unknown search type.");
+            return;
+    }
+
+    window.open(url, '_blank');
+}
+    </script>
+</body>
+</html>
