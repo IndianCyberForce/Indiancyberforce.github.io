@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/jpg" href="https://i.ibb.co/80dLxPx/ICF.png" />
+    <meta name="description" content="Indian Cyber Force ">
+    <meta property="og:image" content="https://i.ibb.co/80dLxPx/ICF.png">
+    <meta property="og:image:url" content="https://i.ibb.co/80dLxPx/ICF.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>ICF is The bug Exposure</title>
+    <style>
+        
+body {
+    background-color: black;
+    color: #00ff00;
+    font-family: "Courier New", Courier, monospace;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+}
+
+.terminal {
+    border: 2px solid #00b7ff;
+    width: 80%;
+    margin: 50px auto;
+    padding: 20px;
+    text-align: center;
+    background-color: #0d0d0d;
+    border: 2px solid #00fbff; 
+    border-radius: 10px;
+    padding: 20px;
+
+    box-shadow: 0 0 20px rgba(0, 255, 247, 0.5); 
+    text-align: center;
+}
+h1 {
+    color: #00ff00;
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    text-shadow: 0 0 5px #00ff00;
+}
+
+.terminal-text {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+}
+
+input {
+    background-color: black;
+    color: #00ff00;
+    border: 2px solid #00ccff;
+    padding: 10px;
+    width: 60%;
+    font-size: 1.2em;
+    margin-bottom: 20px;
+}
+
+button {
+    background-color: black;
+    color: #ff0000;
+    border: 2px solid rgb(64, 255, 0);
+    padding: 10px;
+    font-size: 1em;
+    margin: 10px;
+    cursor: pointer;
+    display: inline-block;
+
+    border-radius: 5px;
+    font-size: 1em;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+button:hover {
+    background-color: #00ff00;
+    color: black;
+
+    box-shadow: 0 0 15px #00ff00; 
+}
+
+.dork-list {
+    margin-top: 20px;
+    text-align: center;
+}
+
+button:focus {
+    outline: none;
+}
+@media (max-width: 600px) {
+    terminal {
+        width: 95%;
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 1.5em;
+    }
+
+    button {
+        width: 100%;
+        padding: 15px;
+    }
+}
+.social {
+            margin: 20px 0;
+        }
+
+.social-button {
+        display: inline-block;
+        background-color: rgba(0, 0, 0, 0.5);
+        border: 2px solid #00fbff; 
+        border-radius: 8px; 
+        padding: 10px;
+        text-decoration: none;
+        color: #00ccff;
+        font-size: 1.5em;
+        transition: transform 0.2s, background-color 0.3s;
+        }
+        .social-button:hover {
+            background-color: rgba(0, 255, 221, 0.688); 
+            transform: scale(1.05); 
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="terminal">
+        <h1>Shodan Dorkware</h1>
+        <p class="terminal-text">Enter the Target host or org name for hidden admin panels, iot devices, Sensitive data Leaks using predefined Dorks:</p>
+        
+        <input type="text" id="target" placeholder="org:google or country:cn or host:192.168.1.7 or net:192.168.1.0/24 or asn:" required>
+        
+        <div class="dork-list">
+            <button onclick="find(1)">dashboard</button>
+            <button onclick="find(2)">Backup files</button>
+            <button onclick="find(3)">wp config</button>
+            <button onclick="find(4)">Auth Disable</button>
+            <button onclick="find(5)">SMB exposures</button>
+            <button onclick="find(6)">wireless default password</button>
+            <button onclick="find(7)">phpmyadmin</button>
+            <button onclick="find(8)">kibana</button>
+            <br>
+            <button onclick="find(9)">API keys</button>
+            <button onclick="find(10)">IP Camera</button>
+            <button onclick="find(11)">Apache Dir Listing</button>
+            <button onclick="find(12)">unauthorized</button>
+            <button onclick="find(13)">telnet</button>
+            <button onclick="find(14)">grafana</button>
+            <button onclick="find(15)">jenkins server</button>
+            <button onclick="find(16)">Admin Panel</button>
+            <button onclick="find(17)">MongoDB</button>
+            <button onclick="find(18)">IIS</button>
+        </div>
+        <center>
+        <font face="iceberg" size="2"><br><br>copyright©2024 | IndianCyberForce</font>
+        <div class="social">
+            <br>
+            <a class="social-button" href="https://t.me/Indian_Cyber_Force_Official" target="_blank">
+                <i class="fab fa-telegram-plane"></i> @CyberForceOfIndia
+            </a>
+        </div>
+        </center>
+    </div>
+
+    <script src="donttrytosteal.js">
+    </script>
+</body>
+</html>
