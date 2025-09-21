@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Cyber Tool</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root { --bg:#0b1020; --card:#0f1724; --muted:#9aa6b2; --accent:#ffeb00; }
+    body { font-family: 'Roboto Mono', monospace; background: linear-gradient(180deg,#05060a 0%, #071129 100%); color:#e6eef6; }
+    .glass { background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border: 1px solid rgba(255,255,255,0.04); backdrop-filter: blur(6px); }
+    .mono { font-family: 'Roboto Mono', monospace; }
+    .tiny { font-size: 12px; }
+    .chip { background: rgba(255,255,255,0.03); padding: 6px 10px; border-radius: 999px; font-weight:600; }
+    textarea, input, select { caret-color: var(--accent); }
+    .badge { background: rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.04); padding:6px 8px; border-radius:8px; }
+    .gradient-ring { box-shadow: 0 6px 30px rgba(255, 255, 0, 0.08); }
+    
+
+    select option {
+        background-color: #1f2937;
+        color: #f9fafb;
+    }
+  </style>
+</head>
+<body class="p-4 md:p-6 lg:p-10">
+  <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6">
+    <header class="lg:col-span-12 flex flex-col md:flex-row items-start md:items-center justify-between">
+      <div>
+        <h1 class="text-2xl md:text-3xl font-bold text-white">Cyber Tool <span class="text-xs ml-2 badge">Pro</span></h1>
+        <p class="tiny text-gray-400 mt-1">Lightweight toolkit for URL processing, reconnaissance.</p>
+      </div>
+      <div class="flex items-center space-x-3 mt-4 md:mt-0">
+        <div class="chip">Pentest</div>
+      </div>
+    </header>
+
+    <!-- Left: Controls -->
+    <div class="lg:col-span-4 glass rounded-2xl p-6 shadow-lg">
+      <label class="block text-sm font-medium text-gray-300 mb-2">Operation</label>
+      <select id="operation-select" class="w-full p-3 rounded-lg bg-transparent border border-gray-700 text-white mb-4">
+        <optgroup label="URL Utilities">
+          <option value="add-http">Add http:// to URLs</option>
+          <option value="remove-duplicates">Remove duplicate lines</option>
+          <option value="parse-credentials">Parse credentials (user:pass@host)</option>
+          <option value="filter-extension">Filter by domain extension</option>
+          <option value="remove-prefixes">Remove http/https prefixes</option>
+          <option value="cidr-to-range">Convert CIDR to IP Range</option>
+        </optgroup>
+        <optgroup label="Recon Helpers">
+          <option value="subdomain-finder">Subdomain Finder</option>
+        </optgroup>
+        <optgroup label="Network Tools">
+          <option value="reverse-ip">Reverse IP Lookup (public API)</option>
+          <option value="asn-prefixes">Fetch IPv4 Prefixes from ASN</option>
+        </optgroup>
+      </select>
+
+      <div id="additional-input-container" class="hidden mb-4">
+        <label class="block text-sm font-medium text-gray-300 mb-2">Input</label>
+        <input id="additional-input" placeholder=" select ,.pk, 8.8.8.8, ASN" class="w-full p-3 rounded-lg bg-transparent border border-gray-700 text-white" />
+        <div class="flex items-center justify-between mt-2 tiny text-gray-400">
+
+        </div>
+      </div>
+
+      <label class="block text-sm font-medium text-gray-300 mb-2 mt-4">Input</label>
+      <textarea id="input-area" rows="8" placeholder="Paste target domains" class="w-full p-3 rounded-lg bg-transparent border border-gray-700 text-white"></textarea>
+
+      <div class="flex items-center gap-3 mt-4">
+        <button id="execute-button" class="flex-1 py-3 rounded-lg bg-yellow-500 hover:bg-yellow-600 font-semibold text-black">Run</button>
+        <button id="clear-button" class="px-4 py-3 rounded-lg bg-gray-800 border border-gray-700">Clear</button>
+      </div>
+
+
+    </div>
+
+    <div class="lg:col-span-8 glass rounded-2xl p-6 shadow-lg flex flex-col">
+      <div class="flex flex-col md:flex-row items-start md:items-center justify-between">
+        <div>
+          <h2 class="text-lg font-semibold">Output</h2>
+          <div class="tiny text-gray-400 mt-1">Results and extracted items.</div>
+        </div>
+        <div class="flex items-center gap-2 mt-4 md:mt-0">
+          <button id="copy-output" class="px-3 py-2 rounded-lg bg-gray-800 border border-gray-700 tiny">Copy</button>
+          <button id="download-output" class="px-3 py-2 rounded-lg bg-gray-800 border border-gray-700 tiny">Download .txt</button>
+        </div>
+      </div>
+
+      <textarea id="output-area" rows="12" readonly class="w-full mt-4 p-4 rounded-lg bg-transparent border border-gray-700 text-green-400 mono"></textarea>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-4">
+        <div class="p-3 rounded-lg border border-gray-700 tiny">
+          <div class="font-semibold">process terminal</div>
+          <div id="summary-box" class="tiny text-gray-400 mt-2">No operations run yet.</div>
+        </div>
+        <div class="p-3 rounded-lg border border-gray-700 tiny">
+          <div class="font-semibold">Stats</div>
+          <div id="stats-box" class="tiny text-gray-400 mt-2">processed: 0 · Found: 0</div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="lg:col-span-12 text-center tiny text-gray-500 mt-2">@copyright 2025 | indian cyber force</footer>
+  </div>
+
+  <script>
+
+    const $ = sel => document.querySelector(sel);
+    const $$ = sel => Array.from(document.querySelectorAll(sel));
+
+    const operationSelect = $('#operation-select');
+    const additionalInputContainer = $('#additional-input-container');
+    const additionalInput = $('#additional-input');
+    const inputArea = $('#input-area');
+    const outputArea = $('#output-area');
+    const summaryBox = $('#summary-box');
+    const statsBox = $('#stats-box');
+    const executeButton = $('#execute-button');
+    const spinner = document.createElement('span');
+    spinner.classList.add('spinner', 'hidden');
+    spinner.style.border = '4px solid rgba(255, 255, 255, 0.3)';
+    spinner.style.borderTop = '4px solid #fff';
+    spinner.style.borderRadius = '50%';
+    spinner.style.width = '1.5rem';
+    spinner.style.height = '1.5rem';
+    spinner.style.animation = 'spin 1s linear infinite';
+    executeButton.appendChild(spinner);
+
+    function setLoading(isLoading) {
+      if (isLoading) {
+        executeButton.disabled = true;
+        executeButton.textContent = 'Running...';
+        executeButton.appendChild(spinner);
+        spinner.classList.remove('hidden');
+      } else {
+        executeButton.disabled = false;
+        executeButton.textContent = 'Run';
+        spinner.classList.add('hidden');
+      }
+    }
+
+    function updateAdditional() {
+      const v = operationSelect.value;
+      const needs = ['filter-extension', 'subdomain-finder', 'reverse-ip', 'asn-prefixes'];
+      if (needs.includes(v)) {
+        additionalInputContainer.classList.remove('hidden');
+        if (v === 'filter-extension') {
+          $('#op-hint').textContent = '.com';
+        } else {
+          $('#op-hint').textContent = '';
+        }
+      } else {
+        additionalInputContainer.classList.add('hidden');
+      }
+    }
+    operationSelect.addEventListener('change', updateAdditional);
+    updateAdditional();
+
+
+    function uniqueLines(lines) { return Array.from(new Set(lines.map(l=>l.trim()).filter(Boolean))); }
+    function download(filename, text) { const blob = new Blob([text], {type:'text/plain'}); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href=url; a.download = filename; a.click(); URL.revokeObjectURL(url); }
+
+    function addHttp(lines) { return lines.map(l => (/^https?:\/\//i.test(l) ? l : 'http://' + l)).join('\n'); }
+    function removeDuplicates(lines) { return uniqueLines(lines).join('\n'); }
+    function parseCredentials(lines) { return lines.map(l=>{ const m = l.match(/(?:https?:\/\/)?([^:@\/]+):([^@\/]+)@([^\/]+)/); if(m) return `User: ${m[1]}, Pass: ${m[2]}, Host: ${m[3]}`; return null; }).filter(Boolean).join('\n'); }
+    function filterByExtension(lines, ext) { if(!ext) return ''; const extension = ext.startsWith('.')?ext:'.'+ext; return lines.filter(l=>l.endsWith(extension)).join('\n'); }
+    function removePrefixes(lines) { return lines.map(l=>l.replace(/^https?:\/\//i,'').split('/')[0]).join('\n'); }
+    function cidrToRange(lines) {
+      return lines.map(line=>{
+        try {
+          const [ip, c] = line.split('/');
+          const cidr = parseInt(c, 10);
+          if (!ip || isNaN(cidr) || cidr < 0 || cidr > 32) throw new Error('Invalid CIDR format');
+          const parts = ip.split('.').map(n => parseInt(n, 10));
+          if (parts.length !== 4 || parts.some(isNaN) || parts.some(n => n < 0 || n > 255)) throw new Error('Invalid IP address');
+          const toInt = p => ((p[0] << 24) | (p[1] << 16) | (p[2] << 8) | p[3]) >>> 0;
+          const intToIp = n => [(n >>> 24) & 255, (n >>> 16) & 255, (n >>> 8) & 255, n & 255].join('.');
+          const ipInt = toInt(parts);
+          const mask = cidr === 0 ? 0 : ~((1 << (32 - cidr)) - 1) >>> 0;
+          const start = ipInt & mask;
+          const end = (start | (~mask)) >>> 0;
+          return `${intToIp(start)}-${intToIp(end)}`;
+        } catch (e) {
+          return `Invalid CIDR: ${line}`;
+        }
+      }).join('\n');
+    }
+    
+    async function findSubdomains(target) {
+      const domain = target.replace(/^https?:\/\//, '').replace(/\/.*$/, '').replace(/^\*/, '').trim();
+      const out = new Set();
+      
+      try {
+        const url = `https://crt.sh/?q=%25.${domain}&output=json`;
+        const res = await fetch(url);
+        if (!res.ok) throw new Error('API returned ' + res.status);
+        const data = await res.json();
+        data.forEach(item => {
+          if (item && item.name_value) {
+            item.name_value.split('\n').forEach(n => out.add(n.trim()));
+          }
+        });
+      } catch (e) {
+      }
+      
+      const commons = ['www', 'mail', 'ns1', 'ns2'];
+      commons.forEach(c => out.add(c + '.' + domain));
+      
+      const finalSubs = Array.from(out)
+        .filter(s => s.endsWith(domain) && !s.includes('*') && !s.includes('@'))
+        .sort();
+        
+      return { result: finalSubs.join('\n'), count: finalSubs.length };
+    }
+    
+    async function reverseIpLookup(ip) {
+      try {
+        const res = await fetch('https://dnsview.org' + encodeURIComponent(ip));
+        if (!res.ok) throw new Error('API returned ' + res.status);
+        const text = await res.text();
+        return { result: text.trim(), count: text.split('\n').filter(Boolean).length };
+      } catch (e) {
+        return { result: 'Error: ' + e.message, count: 0 };
+      }
+    }
+
+    async function fetchPrefixesFromAsn(asn) {
+      try {
+        const id = asn.replace(/^AS/i, '');
+        const res = await fetch(`https://api.bgpview.io/asn/${id}/prefixes`);
+        if (!res.ok) throw new Error('bgpview returned ' + res.status);
+        const data = await res.json();
+        if (data.data && data.data.ipv4_prefixes) {
+          const prefixes = data.data.ipv4_prefixes.map(p => p.prefix);
+          return { result: prefixes.join('\n'), count: prefixes.length };
+        }
+        return { result: 'No IPv4 prefixes found.', count: 0 };
+      } catch (e) {
+        return { result: 'Error: ' + e.message, count: 0 };
+      }
+    }
+
+    $('#execute-button').addEventListener('click', async () => {
+      const op = operationSelect.value;
+      const raw = inputArea.value.trim();
+      const lines = raw.split('\n').map(s => s.trim()).filter(Boolean);
+      outputArea.value = '';
+      summaryBox.textContent = 'Running...';
+      statsBox.textContent = `Lines processed: ${lines.length} · Found: 0`;
+      setLoading(true);
+
+      try {
+        let resText = '';
+        let foundCount = 0;
+        let totalItems = lines.length;
+
+        switch (op) {
+          case 'add-http':
+            resText = addHttp(lines);
+            foundCount = resText.split('\n').filter(Boolean).length;
+            break;
+          case 'remove-duplicates':
+            resText = removeDuplicates(lines);
+            foundCount = resText.split('\n').filter(Boolean).length;
+            break;
+          case 'parse-credentials':
+            resText = parseCredentials(lines);
+            foundCount = resText.split('\n').filter(Boolean).length;
+            break;
+          case 'filter-extension':
+            resText = filterByExtension(lines, additionalInput.value);
+            foundCount = resText.split('\n').filter(Boolean).length;
+            break;
+          case 'remove-prefixes':
+            resText = removePrefixes(lines);
+            foundCount = resText.split('\n').filter(Boolean).length;
+            break;
+          case 'cidr-to-range':
+            resText = cidrToRange(lines);
+            foundCount = resText.split('\n').filter(Boolean).length;
+            break;
+          case 'subdomain-finder':
+            if (lines.length === 0) {
+              throw new Error('Please provide target domain.');
+            }
+            let allSubdomains = new Set();
+            for (let i = 0; i < lines.length; i++) {
+              const domain = lines[i];
+              summaryBox.textContent = `Processing domain ${i + 1} of ${lines.length}: ${domain}`;
+              const subdomains = await findSubdomains(domain);
+              subdomains.result.split('\n').forEach(sub => {
+                if (sub) allSubdomains.add(sub);
+              });
+            }
+            resText = Array.from(allSubdomains).sort().join('\n');
+            foundCount = allSubdomains.size;
+            totalItems = lines.length;
+            break;
+
+          case 'reverse-ip':
+            const ip = lines[0] || additionalInput.value;
+            if (!ip) throw new Error('Provide an IP');
+            const reverse = await reverseIpLookup(ip);
+            resText = reverse.result;
+            foundCount = reverse.count;
+            totalItems = 1;
+            break;
+
+          case 'asn-prefixes':
+            const asn = lines[0] || additionalInput.value;
+            if (!asn) throw new Error('Provide an ASN');
+            const prefixes = await fetchPrefixesFromAsn(asn);
+            resText = prefixes.result;
+            foundCount = prefixes.count;
+            totalItems = 1;
+            break;
+
+          default:
+            resText = 'Operation not start.';
+            foundCount = 0;
+        }
+
+        outputArea.value = resText;
+        summaryBox.textContent = `Operation: ${op} · Total Items: ${totalItems} · Results Found: ${foundCount}`;
+        statsBox.textContent = `Lines processed: ${totalItems} · Results: ${foundCount}`;
+      } catch (e) {
+        summaryBox.textContent = 'Error: ' + e.message;
+        statsBox.textContent = 'Lines processed: 0 · Results: 0';
+      } finally {
+        setLoading(false);
+      }
+    });
+
+
+    $('#copy-output').addEventListener('click', () => { navigator.clipboard.writeText(outputArea.value).then(() => { }).catch(e => { }); });
+    $('#download-output').addEventListener('click', () => { download('output.txt', outputArea.value || ''); });
+    
+    $('#load-sample').addEventListener('click', () => {
+      inputArea.value = '';
+      operationSelect.value = 'subdomain-finder';
+      updateAdditional();
+    });
+    $('#clear-button').addEventListener('click', () => {
+      inputArea.value = '';
+      outputArea.value = '';
+      summaryBox.textContent = 'No operations run yet.';
+      statsBox.textContent = 'Lines processed: 0 · Found: 0';
+    });
+
+
+
+  </script>
+</body>
+</html>
